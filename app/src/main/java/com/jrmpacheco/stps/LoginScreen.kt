@@ -1,6 +1,8 @@
 package com.jrmpacheco.stps
+
 import android.app.Activity
 import android.inputmethodservice.Keyboard.Row
+import android.util.Patterns
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.*
@@ -27,19 +29,19 @@ import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.unit.dp
 
+
 @Composable
 fun LoginScreen() {
 
     Box(
         Modifier
             .fillMaxSize()
-            .padding(8.dp)){
+            .padding(8.dp)
+    ) {
         Header(Modifier.align(Alignment.TopEnd))
         Body(Modifier.align(Alignment.Center))
     }
 }
-
-
 
 @Composable
 fun Body(modifier: Modifier) {
@@ -62,38 +64,45 @@ fun BtnLogin() {
 
 @Composable
 fun TxtEmail() {
-        val textState = remember { mutableStateOf(TextFieldValue()) }
-        OutlinedTextField(
-            value = textState.value,
-            onValueChange = { textState.value = it },
-            label = { Text(text = "Usuario") },
-            placeholder = { Text(text = "ex. jrmpacheco@outlook.com") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
-            trailingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Nombre de Usuario o Email") },
-            modifier = Modifier.fillMaxWidth()
+    val textState = remember { mutableStateOf(TextFieldValue()) }
+    OutlinedTextField(
+        value = textState.value,
+        onValueChange = { textState.value = it },
+        label = { Text(text = "Usuario") },
+        placeholder = { Text(text = "ex. jrmpacheco@outlook.com") },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Default.Email,
+                contentDescription = "Nombre de Usuario o Email"
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
 
-        )
+    )
 }
-
 
 @Composable
 fun TxtPassword() {
-        val textState = remember { mutableStateOf(TextFieldValue()) }
-        OutlinedTextField(
-            value = textState.value,
-            onValueChange = { textState.value = it },
-            label = { Text(text = "Contraseña") },
-            keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
-            trailingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Contraseña / Clave") },
-            modifier = Modifier.fillMaxWidth()
+    val textState = remember { mutableStateOf(TextFieldValue()) }
+    OutlinedTextField(
+        value = textState.value,
+        onValueChange = { textState.value = it },
+        label = { Text(text = "Contraseña") },
+        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
+        trailingIcon = {
+            Icon(
+                imageVector = Icons.Default.Lock,
+                contentDescription = "Contraseña / Clave"
+            )
+        },
+        modifier = Modifier.fillMaxWidth()
 
-        )
+    )
 }
 
-
-
 @Composable
-fun ImageLogo(modifier:Modifier) {
+fun ImageLogo(modifier: Modifier) {
     Image(
         painter = painterResource(id = R.drawable.stps_01),
         contentScale = ContentScale.Fit,
@@ -108,11 +117,13 @@ fun ImageLogo(modifier:Modifier) {
 }
 
 @Composable
-fun Header(modifier:Modifier) {
-    val activity =  LocalContext.current as Activity
+fun Header(modifier: Modifier) {
+    val activity = LocalContext.current as Activity
     Icon(imageVector = Icons.Default.Close, contentDescription = "Header", modifier.clickable {
         activity.finish()
     })
 }
 
-
+fun Sign(email : String, password : String): Boolean  {
+    return Patterns.EMAIL_ADDRESS.matcher(email).matches() && password.length>6
+}
